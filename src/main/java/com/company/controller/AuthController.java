@@ -9,7 +9,7 @@ import com.company.payload.response.JwtResponse;
 import com.company.payload.response.MessageResponse;
 import com.company.repository.RoleRepository;
 import com.company.repository.UserRepository;
-import com.company.security.jwt.JwtUtils;
+import com.company.common.utils.JwtUtils;
 import com.company.security.services.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

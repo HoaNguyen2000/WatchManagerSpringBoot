@@ -1,4 +1,4 @@
-package com.company.security.jwt;
+package com.company.common.utils;
 
 import java.util.Date;
 
