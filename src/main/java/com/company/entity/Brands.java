@@ -1,6 +1,7 @@
 package com.company.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ import javax.persistence.UniqueConstraint;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Brands {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
