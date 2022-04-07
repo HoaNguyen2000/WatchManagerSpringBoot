@@ -1,4 +1,4 @@
-package com.company.service;
+package com.company.services;
 
 import com.company.dto.ChangePasswordDTO;
 import com.company.entity.User;

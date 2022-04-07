@@ -2,7 +2,7 @@ package com.company.controller;
 
 import com.company.dto.ChangePasswordDTO;
 import com.company.entity.User;
-import com.company.service.UserService;
+import com.company.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

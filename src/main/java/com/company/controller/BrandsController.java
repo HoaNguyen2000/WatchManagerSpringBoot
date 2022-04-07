@@ -1,7 +1,7 @@
 package com.company.controller;
 
 import com.company.entity.Brands;
-import com.company.service.BrandsService;
+import com.company.services.BrandsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
