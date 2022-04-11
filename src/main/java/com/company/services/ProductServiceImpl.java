@@ -5,6 +5,7 @@ import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -45,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(productSave);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         Product product = findById(id);
