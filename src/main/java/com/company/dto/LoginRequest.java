@@ -1,4 +1,4 @@
-package com.company.payload.request;
+package com.company.dto;
 
 import lombok.Getter;
 import lombok.Setter;
