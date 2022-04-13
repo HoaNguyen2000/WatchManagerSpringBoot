@@ -1,8 +1,10 @@
 package com.company.configuration;
 
 import com.company.common.enums.RoleEnum;
+import com.company.entity.Brands;
 import com.company.entity.Role;
 import com.company.entity.User;
+import com.company.repository.BrandRepository;
 import com.company.repository.RoleRepository;
 import com.company.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +28,7 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(RoleRepository roleRepository,
                                    UserRepository userRepository,
+                                   BrandRepository brandRepository,
                                    PasswordEncoder passwordEncoder) {
         return args -> {
             if (!reload) {
@@ -104,7 +107,31 @@ public class LoadDatabase {
             } else {
                 userNew = adminDefault.get();
             }
+            //**************************
 
+            log.info("Preloading BRAND: Samsung, Apple, Huawei, Oppo");
+            Brands samsung = Brands.builder()
+                    .name("Samsung")
+                    .slug("samsung")
+                    .build();
+            Brands apple = Brands.builder()
+                    .name("Apple")
+                    .slug("apple")
+                    .build();
+            Brands huawei = Brands.builder()
+                    .name("Huawei")
+                    .slug("huawei")
+                    .build();
+            Brands oppo = Brands.builder()
+                    .name("Oppo")
+                    .slug("oppo")
+                    .build();
+            List<Brands> brands = Arrays.asList(
+                    samsung,
+                    apple,
+                    huawei,
+                    oppo);
+            brandRepository.saveAll(brands);
         };
     }
 }

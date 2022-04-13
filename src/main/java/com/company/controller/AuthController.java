@@ -1,17 +1,22 @@
 package com.company.controller;
 
 import com.company.common.enums.RoleEnum;
+import com.company.dto.ResponeJson;
 import com.company.entity.Role;
 import com.company.entity.User;
-import com.company.payload.request.LoginRequest;
-import com.company.payload.request.SignupRequest;
-import com.company.payload.response.JwtResponse;
-import com.company.payload.response.MessageResponse;
+import com.company.exception.BadRequestException;
+import com.company.exception.ErrorParam;
+import com.company.exception.Errors;
+import com.company.exception.SysError;
+import com.company.dto.LoginRequest;
+import com.company.dto.SignupRequest;
+import com.company.dto.JwtResponse;
 import com.company.repository.RoleRepository;
 import com.company.repository.UserRepository;
 import com.company.common.utils.JwtUtils;
 import com.company.security.services.UserDetailsImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -68,17 +73,17 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<ResponeJson<?>> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body(
+                    new ResponeJson<>(new ResponeJson<>(HttpStatus.BAD_REQUEST, "Username is already taken!"))
+            );
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+            return ResponseEntity.badRequest().body(
+                    new ResponeJson<>(new ResponeJson<>(HttpStatus.BAD_REQUEST, "Email is already in use!"))
+            );
         }
 
         // Create new user's account
@@ -92,26 +97,30 @@ public class AuthController {
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new BadRequestException(
+                            new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
                         Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new BadRequestException(
+                                        new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
                         roles.add(adminRole);
 
                         break;
                     case "sadmin":
                         Role modRole = roleRepository.findByName(RoleEnum.ROLE_SUPER_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new BadRequestException(
+                                        new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
                         roles.add(modRole);
 
                         break;
                     default:
                         Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new BadRequestException(
+                                        new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
                         roles.add(userRole);
                 }
             });
@@ -119,6 +128,6 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new ResponeJson<>(HttpStatus.CREATED, "User registered successfully!"));
     }
 }

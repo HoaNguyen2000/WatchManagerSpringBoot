@@ -10,6 +10,7 @@ public class Errors {
     public static final String ERROR_MENU_NOT_FOUND = "menu-not-found";
     public static final String ERROR_EMAIL_NOT_FOUND = "email-not-found";
     public static final String PASSWORD_NOT_MATCH = "password-not-match";
+    public static final String PASSWORD_NOT_CORRECT = "password-not-correct";
     public static final String VERIFY_CODE_FAILED = "verify-code-failed";
     public static final String USER_ID_IS_EXISTS = "userId-is-exists";
 
@@ -21,4 +22,5 @@ public class Errors {
     public static final String VERIFY_CODE = "verifyCode";
     public static final String USER_ID = "userId";
     public static final String PRIVILEGE = "privilege";
+
 }
