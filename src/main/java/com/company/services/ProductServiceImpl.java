@@ -4,6 +4,7 @@ import com.company.entity.Product;
 import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,9 +14,11 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final DSLContext context;
 
     @Override
     public List<Product> findAll() {
+
         return productRepository.findAll();
     }
 
