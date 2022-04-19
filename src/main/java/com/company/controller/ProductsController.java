@@ -1,6 +1,7 @@
 package com.company.controller;
 
 import com.company.common.constants.Constant;
+import com.company.dto.ProductResponse;
 import com.company.dto.ResponeJson;
 import com.company.entity.Product;
 import com.company.services.ProductService;
@@ -26,7 +27,7 @@ public class ProductsController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll(){
+    public ResponseEntity<List<ProductResponse>> findAll(){
         return ResponseEntity.ok().body(productService.findAll());
     }
 

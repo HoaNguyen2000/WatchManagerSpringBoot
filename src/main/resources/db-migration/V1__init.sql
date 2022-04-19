@@ -30,7 +30,7 @@ CREATE TABLE if not exists products (
     old_price double DEFAULT NULL,
     price double DEFAULT NULL,
     slug varchar(255) DEFAULT NULL,
-    type varchar DEFAULT NULL,
+    type varchar(255) DEFAULT NULL,
     PRIMARY KEY (id)
     );
 ALTER TABLE products

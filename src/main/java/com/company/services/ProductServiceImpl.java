@@ -1,5 +1,6 @@
 package com.company.services;
 
+import com.company.dto.ProductResponse;
 import com.company.entity.Product;
 import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.ProductRepository;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static jooq.demo.com.Tables.BRANDS;
+import static jooq.demo.com.Tables.PRODUCTS;
+
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -17,9 +22,19 @@ public class ProductServiceImpl implements ProductService {
     private final DSLContext context;
 
     @Override
-    public List<Product> findAll() {
-
-        return productRepository.findAll();
+    public List<ProductResponse> findAll() {
+        return context.select(
+                        PRODUCTS.ID,
+                        PRODUCTS.BRAND_ID,
+                        BRANDS.NAME.as("brandName"),
+                        PRODUCTS.NAME,
+                        PRODUCTS.OLD_PRICE,
+                        PRODUCTS.PRICE,
+                        PRODUCTS.SLUG,
+                        PRODUCTS.DESCRIPTION)
+                .from(PRODUCTS).
+                innerJoin(BRANDS).on(PRODUCTS.BRAND_ID.eq(BRANDS.ID))
+                .fetchInto(ProductResponse.class);
     }
 
     @Override
