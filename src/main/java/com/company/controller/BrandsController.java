@@ -3,6 +3,9 @@ package com.company.controller;
 import com.company.entity.Brands;
 import com.company.services.BrandsService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +20,10 @@ public class BrandsController {
     BrandsService brandsService;
 
     @GetMapping
-    public ResponseEntity<List<Brands>> getAllBrand() {
-        return ResponseEntity.ok().body(brandsService.getAllBrands());
+    public ResponseEntity<Page<Brands>> getAllBrand(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "3") int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(brandsService.getAllBrands(paging));
     }
 
     @PostMapping

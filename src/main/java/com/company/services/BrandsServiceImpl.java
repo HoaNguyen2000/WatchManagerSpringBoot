@@ -4,10 +4,10 @@ import com.company.entity.Brands;
 import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.BrandRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -16,8 +16,8 @@ public class BrandsServiceImpl implements BrandsService {
     BrandRepository brandRepository;
 
     @Override
-    public List<Brands> getAllBrands() {
-        return brandRepository.findAll();
+    public Page<Brands> getAllBrands(Pageable pageable) {
+        return brandRepository.findAll(pageable);
     }
 
     @Override
