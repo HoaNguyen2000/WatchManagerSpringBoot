@@ -38,7 +38,7 @@ public class Product extends BaseEntity{
 
     private Double price;
 
-    private TypeWatchEnum type;
+    private String type;
 
     @Column(columnDefinition = "TEXT")
     private String description;

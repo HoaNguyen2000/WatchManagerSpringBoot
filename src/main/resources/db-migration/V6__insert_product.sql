@@ -1,5 +1,5 @@
 INSERT INTO products (brand_id, name, old_price, price, slug, description, type, created_time, updated_time)
-VALUES (1, 'Apple Watch Series 6', '7990000', '5490000', 'apple-watch-series-3',
+VALUES (1, 'Apple Watch Series 6', '7990000', '5490000', 'apple-watch-series-6',
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         'SMART_WATCH', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
        (1, 'Apple Watch Series 7', '7990000', '5490000', 'apple-watch-series-7',
@@ -15,6 +15,6 @@ VALUES (1, 'Apple Watch Series 6', '7990000', '5490000', 'apple-watch-series-3',
        (4, 'Oppo Watch 46mm', '8990000', '6590000', 'oppo-watch-46mm',
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         'SMART_WATCH', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-       (4, 'Đồng hồ Garmin MarQ Adventurer', '44990000', '43990000', 'garmin-marq',
+       (5, 'Đồng hồ Garmin MarQ Adventurer', '44990000', '43990000', 'garmin-marq',
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         'CLASSIC_WATCH', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

@@ -24,21 +24,15 @@ public class Specification extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name= "product_id")
+    private long productId;
     @Column(name = "display_type")
     private String displayType;
 
     @Column(name = "display_size")
     private Double displaySize;
 
-    @Column(name = "display_resolution")
-    private String displayResolution;
-
-    @Column(name = "display_dimension")
-    private String displayDimension;
-
     private String battery;
-
-    private String color;
 
     @Column(name = "launch_announced")
     private Date launchAnnounced;

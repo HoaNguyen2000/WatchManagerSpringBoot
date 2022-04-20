@@ -30,12 +30,9 @@ public class SpecificationServiceImpl implements SpecificationService{
     public Specification update(Specification specification, Long id) {
         Specification spec = findById(id);
         spec.setLaunchAnnounced(specification.getLaunchAnnounced());
-        spec.setDisplayDimension(specification.getDisplayDimension());
-        spec.setDisplayResolution(specification.getDisplayResolution());
         spec.setDisplayType(specification.getDisplayType());
         spec.setDisplaySize(specification.getDisplaySize());
         spec.setBattery(specification.getBattery());
-        spec.setColor(specification.getColor());
         return specificationRepository.save(spec);
     }
 

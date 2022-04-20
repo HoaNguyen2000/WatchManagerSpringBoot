@@ -44,8 +44,9 @@ ALTER TABLE products
 
 CREATE TABLE if not exists specification (
     id bigint NOT NULL AUTO_INCREMENT,
+    product_id bigint NOT NULL,
     battery varchar(255) DEFAULT NULL,
-    display_size double DEFAULT NULL,
+    display_size varchar(255) DEFAULT NULL,
     display_type varchar(255) DEFAULT NULL,
     launch_announced date DEFAULT NULL,
     created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
