@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product save(Product product) {
         return productRepository.save(product);
     }
@@ -55,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product update(Product product, Long id) {
         Product productSave = findById(id);
 

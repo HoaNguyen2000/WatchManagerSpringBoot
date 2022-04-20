@@ -4,14 +4,18 @@ create table if not exists users(
     name varchar(200) DEFAULT NULL,
     password varchar(120) DEFAULT NULL,
     phone varchar(255) DEFAULT NULL,
-    username varchar(20) DEFAULT NULL
+    username varchar(20) DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 ALTER TABLE users
     ADD CONSTRAINT UC_Users UNIQUE (username, email);
 
 CREATE TABLE if not exists roles (
     id bigint PRIMARY KEY AUTO_INCREMENT,
-    name varchar(20) DEFAULT NULL
+    name varchar(20) DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
 CREATE TABLE if not exists user_roles (
@@ -31,6 +35,8 @@ CREATE TABLE if not exists products (
     price double DEFAULT NULL,
     slug varchar(255) DEFAULT NULL,
     type varchar(255) DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
     );
 ALTER TABLE products
@@ -39,12 +45,11 @@ ALTER TABLE products
 CREATE TABLE if not exists specification (
     id bigint NOT NULL AUTO_INCREMENT,
     battery varchar(255) DEFAULT NULL,
-    color varchar(255) DEFAULT NULL,
-    display_dimension varchar(255) DEFAULT NULL,
-    display_resolution varchar(255) DEFAULT NULL,
     display_size double DEFAULT NULL,
     display_type varchar(255) DEFAULT NULL,
     launch_announced date DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
     );
 
@@ -52,6 +57,8 @@ CREATE TABLE if not exists brands (
     id bigint NOT NULL AUTO_INCREMENT,
     name varchar(255) DEFAULT NULL,
     slug varchar(255) DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
     );
 ALTER TABLE products

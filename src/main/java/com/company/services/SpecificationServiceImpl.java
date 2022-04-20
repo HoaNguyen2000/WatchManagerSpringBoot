@@ -5,6 +5,7 @@ import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.SpecificationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -13,6 +14,7 @@ public class SpecificationServiceImpl implements SpecificationService{
     private final SpecificationRepository specificationRepository;
 
     @Override
+    @Transactional
     public Specification save(Specification watches) {
         return specificationRepository.save(watches);
     }
@@ -24,6 +26,7 @@ public class SpecificationServiceImpl implements SpecificationService{
     }
 
     @Override
+    @Transactional
     public Specification update(Specification specification, Long id) {
         Specification spec = findById(id);
         spec.setLaunchAnnounced(specification.getLaunchAnnounced());
@@ -37,6 +40,7 @@ public class SpecificationServiceImpl implements SpecificationService{
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Specification specification = findById(id);
         specificationRepository.delete(specification);

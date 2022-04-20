@@ -5,6 +5,7 @@ import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class BrandsServiceImpl implements BrandsService {
     }
 
     @Override
+    @Transactional
     public Brands save(Brands brands) {
         return brandRepository.save(brands);
     }
@@ -31,6 +33,7 @@ public class BrandsServiceImpl implements BrandsService {
     }
 
     @Override
+    @Transactional
     public Brands update(Brands brands, Long id) {
         Brands brand = findById(id);
         brand.setName(brands.getName());
@@ -39,6 +42,7 @@ public class BrandsServiceImpl implements BrandsService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Brands brand = findById(id);
         brandRepository.delete(brand);
