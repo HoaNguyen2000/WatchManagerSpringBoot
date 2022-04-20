@@ -6,7 +6,9 @@ import com.company.entity.Product;
 import java.util.List;
 
 public interface ProductService {
-    List<ProductResponse> findAll();
+    List<ProductResponse> findAllByJooq();
+
+    List<Product> findAll();
 
     Product save(Product product);
 

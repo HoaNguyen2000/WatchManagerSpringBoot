@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private final DSLContext context;
 
     @Override
-    public List<ProductResponse> findAll() {
+    public List<ProductResponse> findAllByJooq() {
         return context.select(
                         PRODUCTS.ID,
                         PRODUCTS.BRAND_ID,
@@ -35,6 +35,11 @@ public class ProductServiceImpl implements ProductService {
                 .from(PRODUCTS).
                 innerJoin(BRANDS).on(PRODUCTS.BRAND_ID.eq(BRANDS.ID))
                 .fetchInto(ProductResponse.class);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     @Override
