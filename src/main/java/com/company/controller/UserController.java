@@ -4,13 +4,11 @@ import com.company.dto.ChangePasswordDTO;
 import com.company.entity.User;
 import com.company.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
@@ -23,9 +21,11 @@ public class UserController {
     UserService userService;
 
     @GetMapping("get-all")
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
-    public ResponseEntity<List<User>> getAllUser() {
-        return ResponseEntity.ok().body(userService.getAllUser());
+    @RolesAllowed({"ROLE_SUPER_ADMIN"})
+    public ResponseEntity<Page<User>> getAllUser(@RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "3") int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return ResponseEntity.ok().body(userService.getAllUser(paging));
     }
 
     @GetMapping("{id}")

@@ -9,12 +9,11 @@ import com.company.exception.ResourceNotFoundExeption;
 import com.company.exception.SysError;
 import com.company.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -25,8 +24,8 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public Page<User> getAllUser(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override
@@ -54,7 +53,8 @@ public class UserServiceImpl implements UserService{
                     new SysError(Errors.PASSWORD_NOT_MATCH, new ErrorParam(Errors.PASSWORD)));
         }
         User user = findUserById(id);
-        if(!passwordEncoder.encode(changePasswordDTO.getPassword()).equals(user.getPassword())){
+
+        if(!passwordEncoder.matches(changePasswordDTO.getPassword(), user.getPassword())){
             throw new BadRequestException(
                     new SysError(Errors.PASSWORD_NOT_CORRECT, new ErrorParam(Errors.PASSWORD)));
         }
