@@ -26,9 +26,18 @@ CREATE TABLE if not exists user_roles (
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(id)
     );
 
+CREATE TABLE if not exists brands (
+    id bigint NOT NULL AUTO_INCREMENT,
+    name varchar(255) DEFAULT NULL,
+    slug varchar(255) DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+    );
+
 CREATE TABLE if not exists products (
     id bigint NOT NULL AUTO_INCREMENT,
-    brand_id bigint DEFAULT NULL,
+    brands_id bigint DEFAULT NULL,
     description text,
     name varchar(255) DEFAULT NULL,
     old_price double DEFAULT NULL,
@@ -37,7 +46,9 @@ CREATE TABLE if not exists products (
     type varchar(255) DEFAULT NULL,
     created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    KEY (brands_id),
+    CONSTRAINT FOREIGN KEY (brands_id) REFERENCES brands (id)
     );
 ALTER TABLE products
     ADD CONSTRAINT UC_Products UNIQUE (slug);
@@ -51,17 +62,8 @@ CREATE TABLE if not exists specification (
     launch_announced date DEFAULT NULL,
     created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    KEY  (product_id),
+    CONSTRAINT FOREIGN KEY (product_id) REFERENCES products (id)
     );
-
-CREATE TABLE if not exists brands (
-    id bigint NOT NULL AUTO_INCREMENT,
-    name varchar(255) DEFAULT NULL,
-    slug varchar(255) DEFAULT NULL,
-    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-    );
-ALTER TABLE products
-    ADD CONSTRAINT UC_Brands UNIQUE (slug);
 

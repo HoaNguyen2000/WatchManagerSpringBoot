@@ -1,4 +1,4 @@
-INSERT INTO products (brand_id, name, old_price, price, slug, description, type, created_time, updated_time)
+INSERT INTO products (brands_id, name, old_price, price, slug, description, type, created_time, updated_time)
 VALUES (1, 'Apple Watch Series 6', '7990000', '5490000', 'apple-watch-series-6',
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
         'SMART_WATCH', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

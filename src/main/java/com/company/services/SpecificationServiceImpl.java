@@ -29,6 +29,7 @@ public class SpecificationServiceImpl implements SpecificationService{
     @Transactional
     public Specification update(Specification specification, Long id) {
         Specification spec = findById(id);
+        spec.setProduct(spec.getProduct());
         spec.setLaunchAnnounced(specification.getLaunchAnnounced());
         spec.setDisplayType(specification.getDisplayType());
         spec.setDisplaySize(specification.getDisplaySize());
