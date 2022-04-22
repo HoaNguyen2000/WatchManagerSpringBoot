@@ -1,33 +1,50 @@
 package com.company.services;
 
-import com.company.common.utils.FileUtils;
+import com.company.dto.Data;
+import com.company.dto.ImageImgbbResponse;
 import com.company.dto.ProductResponse;
 import com.company.dto.ProductsDTO;
 import com.company.entity.Product;
 import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.ProductRepository;
-import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.IOException;
 import java.util.List;
 
 import static jooq.demo.com.Tables.BRANDS;
 import static jooq.demo.com.Tables.PRODUCTS;
 
 @Service
-@AllArgsConstructor
+
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    FileUtils fileUtils;
     private final DSLContext context;
-    FileStorageService fileStorageService;
 
+    public ProductServiceImpl(ProductRepository productRepository, DSLContext context) {
+        this.productRepository = productRepository;
+        this.context = context;
+    }
+
+    @Value("${imgbb.key}")
+    private String key;
+
+    WebClient client = WebClient.builder()
+            .baseUrl("https://api.imgbb.com/1/upload?expiration=2592000&key=" + key)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .build();
     @Override
     public List<ProductResponse> findAllByJooq() {
         return context.select(
@@ -52,11 +69,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(ProductsDTO product, MultipartFile file) {
-        String fileName = fileStorageService.saveImage(file);
+        String imageLink = uploadImageWithIMGBB(file);
 
         Product productSave = new Product();
         productSave.setName(product.getName());
-        productSave.setImageLink(fileName);
+        productSave.setImageLink(imageLink);
         productSave.setBrands(product.getBrands());
         productSave.setOldPrice(product.getOldPrice());
         productSave.setPrice(product.getPrice());
@@ -76,9 +93,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product update(Product product, Long id) {
+    public Product update(Product product, MultipartFile image, Long id) {
         Product productUpdate = findById(id);
-
+        String imageLink = uploadImageWithIMGBB(image);
         productUpdate.setName(product.getName());
         productUpdate.setDescription(product.getDescription());
         productUpdate.setOldPrice(product.getOldPrice());
@@ -86,6 +103,7 @@ public class ProductServiceImpl implements ProductService {
         productUpdate.setPrice(product.getPrice());
         productUpdate.setSlug(product.getSlug());
         productUpdate.setType(product.getType());
+        productUpdate.setImageLink(imageLink);
 
         return productRepository.save(productUpdate);
     }
@@ -95,5 +113,23 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         Product product = findById(id);
         productRepository.delete(product);
+    }
+
+    @Override
+    public String uploadImageWithIMGBB(MultipartFile file) {
+        byte[] image = new byte[0];
+        try {
+            image = Base64.encodeBase64(file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String imageBase64 = new String(image);
+        ImageImgbbResponse imageImgbbResponse = client.post()
+                .body(BodyInserters.fromFormData("image", imageBase64))
+                .retrieve()
+                .bodyToMono(ImageImgbbResponse.class)
+                .block();
+        Data data = imageImgbbResponse.getData();
+        return data.getDisplayUrl();
     }
 }

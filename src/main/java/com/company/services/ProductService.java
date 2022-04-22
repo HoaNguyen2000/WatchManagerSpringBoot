@@ -18,7 +18,9 @@ public interface ProductService {
 
     Product findById(Long id);
 
-    Product update(Product product, Long id);
+    Product update(Product product, MultipartFile image, Long id);
 
     void delete(Long id);
+
+    String uploadImageWithIMGBB(MultipartFile file);
 }

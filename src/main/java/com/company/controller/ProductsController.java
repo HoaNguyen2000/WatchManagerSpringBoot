@@ -24,6 +24,7 @@ public class ProductsController {
 
     private final ProductService productService;
 
+
     @GetMapping
     public ResponseEntity<Page<Product>> findAll(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "3") int size) {
@@ -45,10 +46,12 @@ public class ProductsController {
 
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Product> update(@RequestBody Product product,
+    @PutMapping(path="{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Product> update(
+            @RequestPart("image") MultipartFile image,
+            @RequestPart Product product,
                                           @PathVariable("id") Long id) {
-        return ResponseEntity.ok(productService.update(product, id));
+        return ResponseEntity.ok(productService.update(product, image, id));
     }
 
     @DeleteMapping("{id}")

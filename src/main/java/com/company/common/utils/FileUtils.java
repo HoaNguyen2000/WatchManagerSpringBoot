@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.apache.http.entity.ContentType.*;
-
 @Component
 public class FileUtils {
 
@@ -19,14 +17,6 @@ public class FileUtils {
         }
     }
 
-    public void isImage(MultipartFile file) {
-        if (!Arrays.asList(
-                IMAGE_JPEG.getMimeType(),
-                IMAGE_PNG.getMimeType(),
-                IMAGE_GIF.getMimeType()).contains(file.getContentType())) {
-            throw new IllegalStateException("File must be an image [" + file.getContentType() + "]");
-        }
-    }
     public Map<String, String> extractMetadata(MultipartFile file) {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
