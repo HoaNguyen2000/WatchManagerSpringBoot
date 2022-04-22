@@ -80,7 +80,6 @@
             <artifactId>jooq-meta-extensions-hibernate</artifactId>
             <version>3.16.5</version>
         </dependency>
-
     </dependencies>
 
     <build>

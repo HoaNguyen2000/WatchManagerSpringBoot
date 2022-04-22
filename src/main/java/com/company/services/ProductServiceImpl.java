@@ -1,6 +1,8 @@
 package com.company.services;
 
+import com.company.common.utils.FileUtils;
 import com.company.dto.ProductResponse;
+import com.company.dto.ProductsDTO;
 import com.company.entity.Product;
 import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.ProductRepository;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,7 +24,9 @@ import static jooq.demo.com.Tables.PRODUCTS;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    FileUtils fileUtils;
     private final DSLContext context;
+    FileStorageService fileStorageService;
 
     @Override
     public List<ProductResponse> findAllByJooq() {
@@ -46,8 +51,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product save(Product product) {
-        return productRepository.save(product);
+    public Product save(ProductsDTO product, MultipartFile file) {
+        String fileName = fileStorageService.saveImage(file);
+
+        Product productSave = new Product();
+        productSave.setName(product.getName());
+        productSave.setImageLink(fileName);
+        productSave.setBrands(product.getBrands());
+        productSave.setOldPrice(product.getOldPrice());
+        productSave.setPrice(product.getPrice());
+        productSave.setSlug(product.getSlug());
+        productSave.setType(product.getType());
+        productSave.setDescription(product.getDescription());
+
+        return productRepository.save(productSave);
     }
 
     @Override
@@ -60,17 +77,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product update(Product product, Long id) {
-        Product productSave = findById(id);
+        Product productUpdate = findById(id);
 
-        productSave.setName(product.getName());
-        productSave.setDescription(product.getDescription());
-        productSave.setOldPrice(product.getOldPrice());
-        productSave.setBrands(product.getBrands());
-        productSave.setPrice(product.getPrice());
-        productSave.setSlug(product.getSlug());
-        productSave.setType(product.getType());
+        productUpdate.setName(product.getName());
+        productUpdate.setDescription(product.getDescription());
+        productUpdate.setOldPrice(product.getOldPrice());
+        productUpdate.setBrands(product.getBrands());
+        productUpdate.setPrice(product.getPrice());
+        productUpdate.setSlug(product.getSlug());
+        productUpdate.setType(product.getType());
 
-        return productRepository.save(productSave);
+        return productRepository.save(productUpdate);
     }
 
     @Transactional

@@ -39,6 +39,7 @@ CREATE TABLE if not exists products (
     id bigint NOT NULL AUTO_INCREMENT,
     brands_id bigint DEFAULT NULL,
     description text,
+    image_link varchar(255) DEFAULT NULL,
     name varchar(255) DEFAULT NULL,
     old_price double DEFAULT NULL,
     price double DEFAULT NULL,
