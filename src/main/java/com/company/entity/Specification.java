@@ -32,4 +32,8 @@ public class Specification extends BaseEntity{
 
     @Column(name = "launch_announced")
     private Date launchAnnounced;
+
+    public Specification(Product product) {
+        this.product = product;
+    }
 }

@@ -46,11 +46,11 @@ public class ProductsController {
 
     }
 
-    @PutMapping(path="{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(path = "{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Product> update(
             @RequestPart("image") MultipartFile image,
             @RequestPart Product product,
-                                          @PathVariable("id") Long id) {
+            @PathVariable("id") Long id) {
         return ResponseEntity.ok(productService.update(product, image, id));
     }
 
