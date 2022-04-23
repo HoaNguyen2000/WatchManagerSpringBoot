@@ -5,12 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -19,10 +14,13 @@ import java.sql.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Specification {
+public class Specification extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne
+    private Product product;
 
     @Column(name = "display_type")
     private String displayType;
@@ -30,16 +28,12 @@ public class Specification {
     @Column(name = "display_size")
     private Double displaySize;
 
-    @Column(name = "display_resolution")
-    private String displayResolution;
-
-    @Column(name = "display_dimension")
-    private String displayDimension;
-
     private String battery;
-
-    private String color;
 
     @Column(name = "launch_announced")
     private Date launchAnnounced;
+
+    public Specification(Product product) {
+        this.product = product;
+    }
 }
