@@ -1,0 +1,2 @@
+INSERT INTO site_info(id, author, phone, email, address, logo_link)
+VALUES (1, "Hoa Nguyen", "036584462", "hoa@gmail.com", "Phu Yen City", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1667px-Apple_logo_black.svg.png");

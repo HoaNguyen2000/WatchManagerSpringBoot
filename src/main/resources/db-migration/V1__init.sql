@@ -68,3 +68,34 @@ CREATE TABLE if not exists specification (
     CONSTRAINT FOREIGN KEY (product_id) REFERENCES products (id)
     );
 
+CREATE TABLE if not exists tags (
+    id bigint NOT NULL AUTO_INCREMENT,
+    name varchar(255) DEFAULT NULL,
+    slug varchar(255) DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+ALTER TABLE tags
+    ADD CONSTRAINT UC_Tags UNIQUE (slug);
+
+CREATE TABLE if not exists user_roles (
+    product_id bigint NOT NULL,
+    tag_id bigint NOT NULL,
+    PRIMARY KEY (`user_id`,`role_id`),
+    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES products(id),
+    CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
+
+CREATE TABLE if not exists site_info (
+    id bigint NOT NULL AUTO_INCREMENT,
+    author varchar(255) DEFAULT NULL,
+    phone varchar(255) DEFAULT NULL,
+    email varchar(255) DEFAULT NULL,
+    address varchar(255) DEFAULT NULL,
+    logo_link varchar(255) DEFAULT NULL,
+    created_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
