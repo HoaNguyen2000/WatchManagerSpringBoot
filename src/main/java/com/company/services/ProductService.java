@@ -1,7 +1,6 @@
 package com.company.services;
 
 import com.company.dto.ProductResponse;
-import com.company.dto.ProductsDTO;
 import com.company.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +13,15 @@ public interface ProductService {
 
     Page<Product> findAll(Pageable pageable);
 
-    Product save(ProductsDTO product, MultipartFile file);
+    Product save(Product product);
 
     Product findById(Long id);
 
-    Product update(Product product, MultipartFile image, Long id);
+    Product update(Product product, Long id);
 
     void delete(Long id);
+
+    Product uploadImageById(MultipartFile image, Long id);
 
     String uploadImageWithIMGBB(MultipartFile file);
 }

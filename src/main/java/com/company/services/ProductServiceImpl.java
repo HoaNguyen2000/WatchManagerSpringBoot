@@ -3,14 +3,12 @@ package com.company.services;
 import com.company.dto.Data;
 import com.company.dto.ImageImgbbResponse;
 import com.company.dto.ProductResponse;
-import com.company.dto.ProductsDTO;
 import com.company.entity.Product;
 import com.company.entity.Specification;
 import com.company.exception.*;
 import com.company.repository.ProductRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -72,12 +70,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product save(ProductsDTO product, MultipartFile file) {
-        String imageLink = uploadImageWithIMGBB(file);
+    public Product save(Product product) {
+
 
         Product productSave = new Product();
         productSave.setName(product.getName());
-        productSave.setImageLink(imageLink);
         productSave.setBrands(product.getBrands());
         productSave.setOldPrice(product.getOldPrice());
         productSave.setPrice(product.getPrice());
@@ -99,9 +96,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product update(Product product, MultipartFile image, Long id) {
+    public Product update(Product product, Long id) {
         Product productUpdate = findById(id);
-        String imageLink = uploadImageWithIMGBB(image);
         productUpdate.setName(product.getName());
         productUpdate.setDescription(product.getDescription());
         productUpdate.setOldPrice(product.getOldPrice());
@@ -109,7 +105,6 @@ public class ProductServiceImpl implements ProductService {
         productUpdate.setPrice(product.getPrice());
         productUpdate.setSlug(product.getSlug());
         productUpdate.setType(product.getType());
-        productUpdate.setImageLink(imageLink);
 
         return productRepository.save(productUpdate);
     }
@@ -119,6 +114,14 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         Product product = findById(id);
         productRepository.delete(product);
+    }
+
+    @Override
+    public Product uploadImageById(MultipartFile image, Long id) {
+        Product product = productRepository.getById(id);
+        String imageLink = uploadImageWithIMGBB(image);
+        product.setImageLink(imageLink);
+        return productRepository.save(product);
     }
 
     @Override

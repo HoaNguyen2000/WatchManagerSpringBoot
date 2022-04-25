@@ -1,7 +1,6 @@
 package com.company.controller;
 
 import com.company.common.constants.Constant;
-import com.company.dto.ProductsDTO;
 import com.company.dto.ResponeJson;
 import com.company.entity.Product;
 import com.company.services.ProductService;
@@ -12,8 +11,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+
 
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -37,21 +48,25 @@ public class ProductsController {
         return ResponseEntity.ok(productService.findById(id));
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Product> save(
-            @RequestPart("image") MultipartFile image,
-            @RequestPart("product") ProductsDTO product) {
-
-        return ResponseEntity.ok(productService.save(product, image));
+    @PostMapping
+    public ResponseEntity<Product> save(@RequestPart("product") Product product) {
+        return ResponseEntity.ok(productService.save(product));
 
     }
 
-    @PutMapping(path = "{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/upload-image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Product> uploadImage(
+            @RequestParam("image") MultipartFile image,
+            @PathVariable("id") Long id
+    ) {
+        return ResponseEntity.ok(productService.uploadImageById(image, id));
+    }
+
+    @PutMapping(path = "{id}")
     public ResponseEntity<Product> update(
-            @RequestPart("image") MultipartFile image,
-            @RequestPart Product product,
+            @RequestBody Product product,
             @PathVariable("id") Long id) {
-        return ResponseEntity.ok(productService.update(product, image, id));
+        return ResponseEntity.ok(productService.update(product, id));
     }
 
     @DeleteMapping("{id}")
