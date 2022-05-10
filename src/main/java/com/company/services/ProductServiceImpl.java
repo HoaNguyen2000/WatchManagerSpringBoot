@@ -5,8 +5,13 @@ import com.company.dto.ImageImgbbResponse;
 import com.company.dto.ProductResponse;
 import com.company.entity.Product;
 import com.company.entity.Specification;
-import com.company.exception.*;
+import com.company.exception.BadRequestException;
+import com.company.exception.ErrorParam;
+import com.company.exception.Errors;
+import com.company.exception.ResourceNotFoundExeption;
+import com.company.exception.SysError;
 import com.company.repository.ProductRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.jooq.DSLContext;
 import org.springframework.data.domain.Page;
@@ -27,7 +32,7 @@ import static jooq.demo.com.Tables.BRANDS;
 import static jooq.demo.com.Tables.PRODUCTS;
 
 @Service
-
+@Slf4j
 public class ProductServiceImpl implements ProductService {
     private final SpecificationService specificationService;
     private final ProductRepository productRepository;
@@ -38,9 +43,6 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
         this.context = context;
     }
-
-    //    @Value("${imgbb.key}")
-//    private String key;
 
     WebClient client = WebClient.builder()
             .baseUrl("https://api.imgbb.com/1/upload?expiration=2592000&key=95bf6b177882d4a2d970d5f4b00afc04")
@@ -71,18 +73,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(Product product) {
-
-
-        Product productSave = new Product();
-        productSave.setName(product.getName());
-        productSave.setBrands(product.getBrands());
-        productSave.setOldPrice(product.getOldPrice());
-        productSave.setPrice(product.getPrice());
-        productSave.setSlug(product.getSlug());
-        productSave.setType(product.getType());
-        productSave.setDescription(product.getDescription());
-
-        Product productSaveResponse = productRepository.save(productSave);
+        Product productSaveResponse = productRepository.save(product);
         specificationService.save(new Specification(productSaveResponse));
         return productSaveResponse;
     }
@@ -98,6 +89,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product update(Product product, Long id) {
         Product productUpdate = findById(id);
+
         productUpdate.setName(product.getName());
         productUpdate.setDescription(product.getDescription());
         productUpdate.setOldPrice(product.getOldPrice());
@@ -105,6 +97,7 @@ public class ProductServiceImpl implements ProductService {
         productUpdate.setPrice(product.getPrice());
         productUpdate.setSlug(product.getSlug());
         productUpdate.setType(product.getType());
+        productUpdate.setImageLink(product.getImageLink());
 
         return productRepository.save(productUpdate);
     }

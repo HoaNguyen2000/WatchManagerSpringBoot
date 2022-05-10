@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3006")
 public class AuthController {
 
     AuthenticationManager authenticationManager;
@@ -94,39 +94,40 @@ public class AuthController {
                 encoder.encode(signUpRequest.getPassword()));
         user.setName(signUpRequest.getName());
         user.setPhone(signUpRequest.getPhone());
-        Set<String> strRoles = signUpRequest.getRole();
+//        Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                    .orElseThrow(() -> new BadRequestException(
-                            new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
-                                .orElseThrow(() -> new BadRequestException(
-                                        new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
-                        roles.add(adminRole);
+//        if (signUpRequest.getRole() === null) {
+//            Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
+//                    .orElseThrow(() -> new BadRequestException(
+//                            new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
+//            roles.add(userRole);
+//        } else {
+//            strRoles.forEach(role -> {
+        switch (signUpRequest.getRole()) {
+            case 1:
+                Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
+                        .orElseThrow(() -> new BadRequestException(
+                                new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
+                roles.add(adminRole);
 
-                        break;
-                    case "sadmin":
-                        Role modRole = roleRepository.findByName(RoleEnum.ROLE_SUPER_ADMIN)
-                                .orElseThrow(() -> new BadRequestException(
-                                        new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
-                        roles.add(modRole);
+                break;
+            case 2:
+                Role modRole = roleRepository.findByName(RoleEnum.ROLE_SUPER_ADMIN)
+                        .orElseThrow(() -> new BadRequestException(
+                                new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
+                roles.add(modRole);
 
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
-                                .orElseThrow(() -> new BadRequestException(
-                                        new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
-                        roles.add(userRole);
-                }
-            });
+                break;
+            default:
+                Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
+                        .orElseThrow(() -> new BadRequestException(
+                                new SysError(Errors.ERROR_ROLE_NOT_FOUND, new ErrorParam(Errors.ROLE))));
+                roles.add(userRole);
+//                }
         }
+        ;
+//        }
         user.setRoles(roles);
         userRepository.save(user);
 

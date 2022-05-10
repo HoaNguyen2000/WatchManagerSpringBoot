@@ -33,12 +33,12 @@ public class UserController {
         return ResponseEntity.ok().body(userService.findUserById(id));
     }
 
-    @PostMapping("/update-profile/{id}")
+    @PutMapping("/update-profile/{id}")
     public ResponseEntity<User> updateProfileUser(@RequestBody User user, @PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.updateProfileUser(user, id));
     }
 
-    @PostMapping("/change-password/{id}")
+    @PutMapping("/change-password/{id}")
     public ResponseEntity<User> changePasswordUser(@RequestBody ChangePasswordDTO changePasswordDTO,
                                                    @PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.changePassword(changePasswordDTO, id));

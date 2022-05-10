@@ -5,13 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
+
 
 @AllArgsConstructor
 @Data
-public class ProductsDTO {
+public class ProductsDTO implements Serializable {
     private String name;
 
-    private Brands brands;
+    private long brandId;
 
     private String slug;
 
@@ -22,4 +24,6 @@ public class ProductsDTO {
     private String type;
 
     private String description;
+
+    MultipartFile image;
 }

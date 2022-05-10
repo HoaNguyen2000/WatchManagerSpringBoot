@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -21,13 +21,13 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> role;
+    private int role;
 
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
 
-    @NotBlank
+//    @NotBlank
     @Size(max = 200, min = 2)
     private String name;
 

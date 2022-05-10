@@ -66,6 +66,7 @@ CREATE TABLE if not exists specification (
     PRIMARY KEY (id),
     KEY  (product_id),
     CONSTRAINT FOREIGN KEY (product_id) REFERENCES products (id)
+    ON DELETE CASCADE
     );
 
 CREATE TABLE if not exists tags (

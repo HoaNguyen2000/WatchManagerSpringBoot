@@ -46,5 +46,21 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-
+    public Product(String name,
+                   Brands brands,
+                   String slug,
+                   Double oldPrice,
+                   Double price,
+                   String type,
+                   String description,
+                   String imageLink) {
+        this.name = name;
+        this.brands = brands;
+        this.slug = slug;
+        this.oldPrice = oldPrice;
+        this.price = price;
+        this.type = type;
+        this.description = description;
+        this.imageLink = imageLink;
+    }
 }
