@@ -14,6 +14,7 @@ public class Errors {
     public static final String VERIFY_CODE_FAILED = "verify-code-failed";
     public static final String USER_ID_IS_EXISTS = "userId-is-exists";
     public static final String UPLOAD_IMAGE_FAILED = "upload_image_failed";
+    public static final String ERROR_RETRIVE_FAILED = "email-not-found";
 
     public static final String USERNAME = "username";
     public static final String ROLE = "role";
