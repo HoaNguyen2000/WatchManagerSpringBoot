@@ -1,6 +1,7 @@
 package com.company.services;
 
 import com.company.common.utils.UrlUtils;
+import com.company.dto.ItemsCartDashboardDTO;
 import com.company.dto.ProductCompareDTO;
 import com.company.dto.tiki.DataTikiResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jooq.demo.com.Tables.*;
-import static org.jooq.impl.DSL.count;
+import static org.jooq.impl.DSL.*;
 
 @Slf4j
 @Service
@@ -71,37 +72,14 @@ public class ReportServiceImpl implements ReportService {
                 .block();
     }
 
-    @Override
-    public List<ProductCompareDTO> getProductsHaiTrieuWatch(String searchQuery) {
-        List<ProductCompareDTO> products = new ArrayList<>();
-        String url = URL_DANGQUANG + searchQuery;
-        try {
-            Document document = Jsoup.connect(url).get();
-            Elements elms = document.getElementsByClass("snize-search-results-content clearfix");
-            for (Element elm : elms) {
-                Elements elmRows = elm.getElementsByTag("li");
-                for (Element element : elmRows) {
-                    String name = element.getElementsByClass("snize-title").text();
-                    String price = element.getElementsByClass("snize-price  money").text();
-                    String productLink = element.getElementsByClass("snize-view-link").attr("href");
-                    String imageLink = element.getElementsByTag("img").attr("src");
 
-                    products.add(new ProductCompareDTO(name, price, productLink, imageLink));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return products;
-    }
 
     @Override
-    public String getItemCart() {
-        context.select(
-                count(PRODUCTS).as("totalProduct"),
-                count(USERS).as("totalUsers"),
-                count(BRANDS).as("totalBrands")
-        ).from(PRODUCTS);
-        return null;
+    public ItemsCartDashboardDTO getItemCartDashboard() {
+        int totalProduct = context.select(count()).from(PRODUCTS).fetchOne(0, int.class);
+        int totalUsers = context.select(count()).from(USERS).fetchOne(0, int.class);
+        int totalBrands = context.select(count()).from(BRANDS).fetchOne(0, int.class);
+
+        return new ItemsCartDashboardDTO(totalProduct, totalUsers, totalBrands);
     }
 }

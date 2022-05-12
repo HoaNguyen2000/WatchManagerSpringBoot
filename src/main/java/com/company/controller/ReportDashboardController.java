@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dto.ItemsCartDashboardDTO;
 import com.company.dto.ProductCompareDTO;
 import com.company.dto.tiki.DataTikiResponse;
 import com.company.services.ReportService;
@@ -30,8 +31,8 @@ class ReportDashboardController {
         return ResponseEntity.ok().body(reportService.getProductsTiki(query));
     }
 
-    @GetMapping("/dang-quang/{query}")
-    public ResponseEntity<List<ProductCompareDTO>> getDataHaiTrieuWatch(@PathVariable("query") String query) {
-        return ResponseEntity.ok().body(reportService.getProductsHaiTrieuWatch(query));
+    @GetMapping("item-cart-dashboard")
+    public ResponseEntity<ItemsCartDashboardDTO> getItemsCartDashboard(){
+        return ResponseEntity.ok().body(reportService.getItemCartDashboard());
     }
 }

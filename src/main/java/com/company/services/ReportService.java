@@ -1,5 +1,6 @@
 package com.company.services;
 
+import com.company.dto.ItemsCartDashboardDTO;
 import com.company.dto.ProductCompareDTO;
 import com.company.dto.tiki.DataTikiResponse;
 
@@ -10,7 +11,5 @@ public interface ReportService {
 
     DataTikiResponse getProductsTiki(String searchQuery);
 
-    List<ProductCompareDTO> getProductsHaiTrieuWatch(String searchQuery);
-
-    String getItemCart();
+    ItemsCartDashboardDTO getItemCartDashboard();
 }
