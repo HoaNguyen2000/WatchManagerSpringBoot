@@ -9,6 +9,7 @@ import com.company.exception.ResourceNotFoundExeption;
 import com.company.exception.SysError;
 import com.company.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
@@ -49,16 +51,17 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public User changePassword(ChangePasswordDTO changePasswordDTO, Long id) {
         if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())){
+            log.error("PASSWORD_NOT_MATCH");
             throw new BadRequestException(
                     new SysError(Errors.PASSWORD_NOT_MATCH, new ErrorParam(Errors.PASSWORD)));
         }
         User user = findUserById(id);
-
         if(!passwordEncoder.matches(changePasswordDTO.getPassword(), user.getPassword())){
+            log.error("PASSWORD_NOT_CORRECT");
             throw new BadRequestException(
                     new SysError(Errors.PASSWORD_NOT_CORRECT, new ErrorParam(Errors.PASSWORD)));
         }
-        user.setPassword(passwordEncoder.encode(changePasswordDTO.getPassword()));
+        user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
         return userRepository.save(user);
     }
 
