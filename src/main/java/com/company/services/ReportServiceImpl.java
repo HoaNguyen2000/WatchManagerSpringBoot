@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jooq.demo.com.Tables.*;
-import static org.jooq.impl.DSL.*;
+import static jooq.demo.com.Tables.BRANDS;
+import static jooq.demo.com.Tables.PRODUCTS;
+import static jooq.demo.com.Tables.USERS;
+import static org.jooq.impl.DSL.count;
 
 @Slf4j
 @Service
@@ -113,7 +115,8 @@ public class ReportServiceImpl implements ReportService {
         return exelHelper.productsToExcel(products.getContent());
     }
 
-    @Override@Transactional
+    @Override
+    @Transactional
     public List<Product> saveProductsByExcel(MultipartFile file)  {
         List<Product> response = new ArrayList<>();
         try {

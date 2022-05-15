@@ -1,6 +1,5 @@
 package com.company.helper;
 
-import com.company.entity.Brands;
 import com.company.entity.Product;
 import com.company.services.BrandsService;
 import org.apache.poi.ss.usermodel.Cell;

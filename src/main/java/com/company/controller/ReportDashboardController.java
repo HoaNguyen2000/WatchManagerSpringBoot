@@ -3,7 +3,6 @@ package com.company.controller;
 import com.company.dto.ItemsCartDashboardDTO;
 import com.company.dto.ProductCompareDTO;
 import com.company.entity.Product;
-import com.company.exception.BadRequestException;
 import com.company.helper.ExelHelper;
 import com.company.services.ReportService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -12,7 +11,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -56,7 +61,7 @@ class ReportDashboardController {
                 .body(file);
     }
 
-    @PostMapping("excel/products")
+    @PostMapping(path = "excel/products", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<List<Product>> saveProductsByExcel(@RequestParam("file") MultipartFile file){
         if (exelHelper.hasExcelFormat(file)) {
             try {
