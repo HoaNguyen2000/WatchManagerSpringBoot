@@ -1,7 +1,7 @@
 package com.company.services;
 
+import com.company.entity.Product;
 import com.company.entity.Specification;
-import com.company.exception.ResourceNotFoundExeption;
 import com.company.repository.SpecificationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,19 @@ public class SpecificationServiceImpl implements SpecificationService{
 
     @Override
     @Transactional
-    public Specification save(Specification watches) {
-        return specificationRepository.save(watches);
+    public Specification save(Specification specification) {
+        return specificationRepository.save(specification);
     }
 
     @Override
-    public Specification findById(Long id) {
-        return specificationRepository.findById(id).orElseThrow(()->
-                new ResourceNotFoundExeption("Cannot found the resource"));
+    public Specification findByProduct(Product product) {
+        return specificationRepository.findByProduct(product);
     }
 
     @Override
     @Transactional
     public Specification update(Specification specification, Long id) {
-        Specification spec = findById(id);
+        Specification spec = specificationRepository.getById(id);
         spec.setProduct(spec.getProduct());
         spec.setLaunchAnnounced(specification.getLaunchAnnounced());
         spec.setDisplayType(specification.getDisplayType());
@@ -40,7 +39,7 @@ public class SpecificationServiceImpl implements SpecificationService{
     @Override
     @Transactional
     public void delete(Long id) {
-        Specification specification = findById(id);
+        Specification specification = specificationRepository.getById(id);
         specificationRepository.delete(specification);
     }
 }

@@ -26,7 +26,7 @@ public class Specification extends BaseEntity{
     private String displayType;
 
     @Column(name = "display_size")
-    private Double displaySize;
+    private String displaySize;
 
     private String battery;
 

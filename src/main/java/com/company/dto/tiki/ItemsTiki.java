@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemsTiki {
+
     @JsonProperty("name")
     private String name;
 
@@ -16,7 +17,7 @@ public class ItemsTiki {
     private String urlPath;
 
     @JsonProperty("original_price")
-    private Integer originalPrice;
+    private String originalPrice;
 
     @JsonProperty("thumbnail_url")
     private String thumbnailUrl;

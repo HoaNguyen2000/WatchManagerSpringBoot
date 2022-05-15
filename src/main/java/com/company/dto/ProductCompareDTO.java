@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 public class ProductCompareDTO {
     private String name;
+
     private String price;
+
     private String link;
+
     private String image;
 }

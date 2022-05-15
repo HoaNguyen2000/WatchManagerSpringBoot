@@ -78,6 +78,14 @@ public class ProductServiceImpl implements ProductService {
         return productSaveResponse;
     }
 
+    @Transactional
+    @Override
+    public List<Product> saveAll(List<Product> products) {
+        var productsSave = productRepository.saveAll(products);
+        productsSave.forEach(product -> specificationService.save(new Specification(product)));
+        return productsSave;
+    }
+
     @Override
     public Product findById(Long id) {
         return productRepository.findById(id).orElseThrow(() ->
