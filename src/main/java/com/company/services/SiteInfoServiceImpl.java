@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class SiteInfoServiceImpl implements SiteInfoService{
+public class SiteInfoServiceImpl implements SiteInfoService {
 
     private final SiteInfoRespository siteInfoRespository;
 

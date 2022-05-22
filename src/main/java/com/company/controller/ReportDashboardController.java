@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.dto.ItemsCartDashboardDTO;
 import com.company.dto.ProductCompareDTO;
 import com.company.entity.Product;
+import com.company.exception.BadRequestException;
 import com.company.helper.ExelHelper;
 import com.company.services.ReportService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -11,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3006")
 @RestController
 @RequestMapping("api/v1/report")
+@Secured({"ROLE_SUPER_ADMIN", "ROLE_ADMIN"})
 class ReportDashboardController {
 
     private final ReportService reportService;
@@ -51,7 +54,7 @@ class ReportDashboardController {
         return ResponseEntity.ok().body(reportService.getItemCartDashboard());
     }
 
-    @GetMapping("exel/products")
+    @GetMapping("excel/products")
     public ResponseEntity<Resource> getFile() {
         String filename = "products_" + RandomStringUtils.randomAlphabetic(10) + ".xlsx";
         InputStreamResource file = new InputStreamResource(reportService.createExelProductsFile());

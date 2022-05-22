@@ -43,7 +43,6 @@ public class ExelHelper {
         this.brandsService = brandsService;
     }
 
-
     public ByteArrayInputStream productsToExcel(List<Product> products) {
 
         try (Workbook workbook = new XSSFWorkbook();
@@ -119,7 +118,7 @@ public class ExelHelper {
                             product.setName(currentCell.getStringCellValue());
                             break;
                         case 1:
-                            Long brandId = (long)currentCell.getNumericCellValue();
+                            Long brandId = (long) currentCell.getNumericCellValue();
                             var brand = brandsService.findById(brandId);
                             product.setBrands(brand);
                             break;

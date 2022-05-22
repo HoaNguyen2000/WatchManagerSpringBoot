@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -50,13 +50,13 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User changePassword(ChangePasswordDTO changePasswordDTO, Long id) {
-        if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())){
+        if (!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getConfirmPassword())) {
             log.error("PASSWORD_NOT_MATCH");
             throw new BadRequestException(
                     new SysError(Errors.PASSWORD_NOT_MATCH, new ErrorParam(Errors.PASSWORD)));
         }
         User user = findUserById(id);
-        if(!passwordEncoder.matches(changePasswordDTO.getPassword(), user.getPassword())){
+        if (!passwordEncoder.matches(changePasswordDTO.getPassword(), user.getPassword())) {
             log.error("PASSWORD_NOT_CORRECT");
             throw new BadRequestException(
                     new SysError(Errors.PASSWORD_NOT_CORRECT, new ErrorParam(Errors.PASSWORD)));
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findUserByEmail(String email) {
-        if(!userRepository.existsByEmail(email)){
+        if (!userRepository.existsByEmail(email)) {
             throw new BadRequestException(
                     new SysError(Errors.ERROR_EMAIL_NOT_FOUND, new ErrorParam(Errors.EMAIL)));
         }
